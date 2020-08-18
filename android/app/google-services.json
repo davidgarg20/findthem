@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "402573971397",
+    "firebase_url": "https://techmafia-findthem.firebaseio.com",
+    "project_id": "techmafia-findthem",
+    "storage_bucket": "techmafia-findthem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402573971397:android:64231d9141fb1146fe45ac",
+        "android_client_info": {
+          "package_name": "techmafia.findthem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "402573971397-ief6un5j4drde0l8bls9k5ifvc9gupbs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm42ghVzIdPni3QGy24fFqPauZ2sIdUQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "402573971397-ief6un5j4drde0l8bls9k5ifvc9gupbs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

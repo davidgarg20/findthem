@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -36,3 +37,19 @@ class _MapViewState extends State<MapView> {
 
   
   }
+=======
+
+class Map extends StatefulWidget {
+  @override
+  _MapState createState() => _MapState();
+}
+
+class _MapState extends State<Map> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(child: Center(child: Text("Map Screen"),),),
+    );
+  }
+}
+>>>>>>> a7b2ad8b24fb3bd80937a05de1ab8d733f33a431

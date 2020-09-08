@@ -1,16 +1,27 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'map.dart';
 void main() {
   runApp(MyApp());
 }
+=======
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+import 'sidebar/sidebar_layout.dart';
+
+void main() => runApp(MaterialApp(
+    home : test(),
+    ));
+>>>>>>> a7b2ad8b24fb3bd80937a05de1ab8d733f33a431
+
+class test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+<<<<<<< HEAD
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -106,12 +117,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
+=======
+        scaffoldBackgroundColor: Colors.white,
+        primaryColor: Colors.white,
+>>>>>>> a7b2ad8b24fb3bd80937a05de1ab8d733f33a431
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      home: sidebar_layout() ,
     );
   }
 }

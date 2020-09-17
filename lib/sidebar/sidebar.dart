@@ -151,10 +151,18 @@ class _sidebarState extends State<sidebar> with SingleTickerProviderStateMixin<s
                     menu_item(
                       icon : Icons.settings,
                       title : "Setting",
+                      onclick : (){
+                          onIconPressed();
+                          BlocProvider.of<Navigation_Bloc>(context).add(NavigationEvents.setting_click );
+                        }
                     ),
                     menu_item(
                       icon : Icons.autorenew,
                       title : "Logout",
+                      onclick : (){
+                          onIconPressed();
+                          BlocProvider.of<Navigation_Bloc>(context).add(NavigationEvents.logout_click );
+                        }
                     ),
                   ],
                 ),

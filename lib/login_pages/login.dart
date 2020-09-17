@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:findthem/http/loginservice.dart';
 
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+
+  @override
+  void initState() {
+    
+  }
   var emailcontroller = TextEditingController();
-
   var passwordcontroller = TextEditingController();
-
   var error=false;
-
   var errormessage="Error";
-
+  bool logina=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,9 +121,12 @@ class _LoginState extends State<Login> {
                 height: 60,
                 child: Material(
                   borderRadius: BorderRadius.circular(30),
-                  color: Colors.green,
+                  color: logina ? Colors.lightGreen : Colors.green,
                   child: GestureDetector(
-                    onTap: () async {
+                    onTap: logina?  () {} : () async {
+                      setState(() {
+                        logina=true;
+                      });
                       print("hello");
                       var k= await login(emailcontroller.text,passwordcontroller.text);
                       
@@ -130,6 +136,9 @@ class _LoginState extends State<Login> {
                       { errormessage=k.toString();  setState(() {
                          error=true;
                       });   }
+                      setState(() {
+                        logina=false;
+                      });
 
                     },
                     child: Center(

@@ -1,9 +1,13 @@
+
 import 'package:bloc/bloc.dart';
 import '../Pages/Construction.dart';
 import '../Pages/Greenvegetable.dart';
 import '../Pages/Tailor_page.dart';
 import '../Pages/raddiwala.dart';
 import '../Pages/Homepage.dart';
+import '../Pages/Logout.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 
 enum NavigationEvents{
@@ -12,6 +16,8 @@ enum NavigationEvents{
   tailor_click,
   construction_click,
   raddiwala_click,
+  logout_click,
+  setting_click,
 }
 
 abstract class NaviagtionStates {}
@@ -39,6 +45,13 @@ class Navigation_Bloc extends Bloc<NavigationEvents,NaviagtionStates>{
       case NavigationEvents.raddiwala_click:
         yield Raddiwala();
         break;
+      case NavigationEvents.logout_click:
+      SharedPreferences prefs= await SharedPreferences.getInstance();
+      prefs.remove("userid");
+      yield Logout();
+        break;
+      case NavigationEvents.setting_click:
+      break;
     }
   }
 

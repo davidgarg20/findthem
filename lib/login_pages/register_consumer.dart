@@ -17,6 +17,7 @@ class _RegisterCState extends State<RegisterC> {
   var confirmpasswordcontroller=TextEditingController();
   var error=false;
   var errormessage="Error";
+  bool register=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,10 +142,12 @@ class _RegisterCState extends State<RegisterC> {
                       width: 200,
                       child: Material(
                         borderRadius: BorderRadius.circular(30),
-                        color: Colors.green,
+                        color: register? Colors.lightGreen : Colors.green,
                         child: GestureDetector(
-                          onTap: () async{
-                           
+                          onTap: register ?(){} : () async{
+                           setState(() {
+                             register=true;
+                           });
                            var k= await registerBuyer(namecontroller.text, addresscontroller.text, citycontroller.text, statecontroller.text, phonenocontroller.text, emailcontroller.text, passwordcontroller.text, confirmpasswordcontroller.text );
                           if(k=="Register Sucessfull")
                            { Navigator.pop(context); Navigator.pop(context); Navigator.pushReplacementNamed(context, '/home');}
@@ -152,8 +155,11 @@ class _RegisterCState extends State<RegisterC> {
                              { errormessage=k.toString();  setState(() {
                                error=true;
                               });   }
+                              setState(() {
+                                register=false;
+                              });
 
-                         },
+                         } ,
                           child: Center(
                             child: Text(
                               'REGISTER',

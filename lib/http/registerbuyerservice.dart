@@ -12,6 +12,8 @@ Future<String> registerBuyer(String name,String address, String city, String sta
   p.reload();
   if(password!=confirmpassword)
   return "Password and Confirm Password don't match";
+  if(phoneno.length!=10)
+  return "Invalid MobileNo.";
   if(name=="")
   return "Name is Required";
   if(address=="")
@@ -32,9 +34,9 @@ Future<String> registerBuyer(String name,String address, String city, String sta
           .timeout(const Duration(seconds: 30));
           print(response.body);
      if(response.statusCode!=200)
-     {  var jsonData = json.decode(utf8.decode(response.bodyBytes)); var t = jsonData['message'][0]; if(t==null) t=jsonData['email'][0]; return t; }
+     {  var jsonData = json.decode(utf8.decode(response.bodyBytes)); var t=jsonData['email'][0]; return t; }
      var jsonData = json.decode(utf8.decode(response.bodyBytes));
-     p.setString("userid",jsonData['userid']);
+     p.setString("userid",jsonData['userid'].toString());
     return "Registration Sucessfull" ;
   }
   on TimeoutException catch( e ) {

@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import '../Pages/Construction.dart';
 import '../Pages/Greenvegetable.dart';
@@ -9,8 +8,7 @@ import '../Pages/Logout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-
-enum NavigationEvents{
+enum NavigationEvents {
   homepage_click,
   greenvegetable_click,
   tailor_click,
@@ -18,19 +16,21 @@ enum NavigationEvents{
   raddiwala_click,
   logout_click,
   setting_click,
+  previous_click
 }
 
 abstract class NaviagtionStates {}
 
-class Navigation_Bloc extends Bloc<NavigationEvents,NaviagtionStates>{
-  @override
+class Navigation_Bloc extends Bloc<NavigationEvents, NaviagtionStates> {
+  Navigation_Bloc(NaviagtionStates initialState) : super(initialState);
 
+  @override
   NaviagtionStates get initialState => Homepage();
 
   @override
   Stream<NaviagtionStates> mapEventToState(NavigationEvents event) async* {
     switch (event) {
-      case NavigationEvents.homepage_click :
+      case NavigationEvents.homepage_click:
         yield Homepage();
         break;
       case NavigationEvents.greenvegetable_click:
@@ -46,14 +46,12 @@ class Navigation_Bloc extends Bloc<NavigationEvents,NaviagtionStates>{
         yield Raddiwala();
         break;
       case NavigationEvents.logout_click:
-      SharedPreferences prefs= await SharedPreferences.getInstance();
-      prefs.remove("userid");
-      yield Logout();
+        yield Logout();
         break;
       case NavigationEvents.setting_click:
-      break;
+        break;
+      case NavigationEvents.previous_click:
+        break;
     }
   }
-
 }
-

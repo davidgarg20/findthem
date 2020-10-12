@@ -34,7 +34,7 @@ class RegisterP extends StatelessWidget {
                     SizedBox(height: 10,),
                     TextField(
                       decoration: InputDecoration(
-                        labelText: 'Occupation',
+                        labelText: 'Seller Category',
                         labelStyle: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20
@@ -51,16 +51,7 @@ class RegisterP extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Area of your service',
-                        labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20
-                        ),
-                      ),
-                    ),
+                  
                     SizedBox(height: 10,),
                     TextField(
                       decoration: InputDecoration(

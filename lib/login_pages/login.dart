@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:findthem/http/loginservice.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -8,16 +9,16 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   @override
   void initState() {
-    
+    signin();
   }
+
   var emailcontroller = TextEditingController();
   var passwordcontroller = TextEditingController();
-  var error=false;
-  var errormessage="Error";
-  bool logina=false;
+  var error = false;
+  var errormessage = "Error";
+  bool logina = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +46,9 @@ class _LoginState extends State<Login> {
                   fontFamily: 'Lobster',
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(
+                height: 40,
+              ),
               Text(
                 'Login to your account to continue',
                 style: TextStyle(
@@ -54,7 +57,9 @@ class _LoginState extends State<Login> {
 //                  fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(
+                height: 40,
+              ),
               TextField(
                 controller: emailcontroller,
                 decoration: InputDecoration(
@@ -71,7 +76,9 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               TextField(
                 controller: passwordcontroller,
                 decoration: InputDecoration(
@@ -89,12 +96,14 @@ class _LoginState extends State<Login> {
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Container(
-                alignment: Alignment(1,0),
+                alignment: Alignment(1, 0),
                 padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushNamed(context, '/forgotpassword');
                   },
                   child: Text(
@@ -108,39 +117,67 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              error? Text(
-                errormessage,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.red,
+              error
+                  ? Text(
+                      errormessage,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.red,
 //                  fontWeight: FontWeight.bold,
-                ),
-              ) : Padding(padding: EdgeInsets.all(0),),
-              SizedBox(height: 30,),
+                      ),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.all(0),
+                    ),
+              SizedBox(
+                height: 30,
+              ),
               Container(
                 height: 60,
                 child: Material(
                   borderRadius: BorderRadius.circular(30),
                   color: logina ? Colors.lightGreen : Colors.green,
                   child: GestureDetector(
-                    onTap: logina?  () {} : () async {
-                      setState(() {
-                        logina=true;
-                      });
-                      print("hello");
-                      var k= await login(emailcontroller.text,passwordcontroller.text);
-                      
-                      if(k=="Login Sucessfull")
-                      { Navigator.pushReplacementNamed(context, '/home'); }
-                      else
-                      { errormessage=k.toString();  setState(() {
-                         error=true;
-                      });   }
-                      setState(() {
-                        logina=false;
-                      });
+                    onTap: logina
+                        ? () {}
+                        : () async {
+                            setState(() {
+                              logina = true;
+                            });
+                            ProgressDialog pr = ProgressDialog(context);
+                            pr = ProgressDialog(
+                              context,
+                              type: ProgressDialogType.Normal,
+                              isDismissible: false,
+                            );
+                            pr.style(
+                                message: 'Logging in..',
+                                borderRadius: 10.0,
+                                backgroundColor: Colors.white,
+                                progressWidget: CircularProgressIndicator(),
+                                elevation: 10.0,
+                                messageTextStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.w600));
+                            await pr.show();
+                            print("hello");
+                            var k = await login(
+                                emailcontroller.text, passwordcontroller.text);
+                            pr.hide();
 
-                    },
+                            if (k == "Login Sucessfull") {
+                              Navigator.pushReplacementNamed(context, '/home');
+                            } else {
+                              errormessage = k.toString();
+                              setState(() {
+                                error = true;
+                              });
+                            }
+                            setState(() {
+                              logina = false;
+                            });
+                          },
                     child: Center(
                       child: Text(
                         'LOGIN',
@@ -155,7 +192,9 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -167,10 +206,12 @@ class _LoginState extends State<Login> {
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     Container(
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pushNamed(context, '/poc');
                         },
                         child: Text(
@@ -192,5 +233,15 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<bool> signin() async {
+    SharedPreferences p = await SharedPreferences.getInstance();
+    p.reload();
+    bool t = p.getBool("login");
+    print(t);
+    if (t == true) {
+      Navigator.pushReplacementNamed(context, '/home');
+    }
   }
 }

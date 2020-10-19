@@ -18,7 +18,9 @@ class ForgotPassword extends StatelessWidget {
                   fontSize: 17,
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(
+                height: 40,
+              ),
               TextField(
                 keyboardType: TextInputType.numberWithOptions(),
                 decoration: InputDecoration(
@@ -39,12 +41,17 @@ class ForgotPassword extends StatelessWidget {
                   fillColor: Colors.grey[300],
                 ),
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: Text('**Your OTP will expire 15 minutes after you receive it'),
+                child: Text(
+                    '**Your OTP will expire 15 minutes after you receive it'),
               ),
-              SizedBox(height: 25,),
+              SizedBox(
+                height: 25,
+              ),
               Center(
                 child: Container(
                   height: 40,
@@ -53,9 +60,7 @@ class ForgotPassword extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.green,
                     child: GestureDetector(
-                      onTap: (){
-
-                      },
+                      onTap: () {},
                       child: Center(
                         child: Text(
                           'SUBMIT',
@@ -71,7 +76,9 @@ class ForgotPassword extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Center(
                 child: Container(
                   height: 40,

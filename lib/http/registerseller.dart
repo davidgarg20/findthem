@@ -6,11 +6,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<String> registerBuyer(
+Future<String> registerSeller(
     String name,
+    String sellercategory,
+    String jobdescription,
     String address,
     String city,
     String state,
+    String pincode,
     String phoneno,
     String email,
     String password,
@@ -19,23 +22,34 @@ Future<String> registerBuyer(
   p.reload();
   if (password != confirmpassword)
     return "Password and Confirm Password don't match";
-  if (phoneno.length != 10) return "Invalid MobileNo.";
   if (name == "") return "Name is Required";
+  if (jobdescription == "") return "Job Description is Required";
   if (address == "") return "Address is Required";
   if (city == "") return "City is Required";
   if (state == "") return "State is Required";
-  if (phoneno == "") return "PhoneNo. is Required";
+  if (pincode == "") return "PinCode is Required";
+  if (phoneno == "") return "MobileNo. is Required";
   if (email == "") return "Email is Required";
   if (password == "") return "Password is Required";
+  if (phoneno.length != 10) return "Invalid MobileNo.";
 
+  var category = 0;
+  if (sellercategory == "RaddiWala")
+    category = 1;
+  else if (sellercategory == "Tailor")
+    category = 2;
+  else if (sellercategory == "Building Contractor") category = 3;
   try {
     var response = await http.post(
-        'http://findthem-techmafia.herokuapp.com/registerbuyer/?format=json',
+        'http://findthem-techmafia.herokuapp.com/registerseller/?format=json',
         body: {
           "name": name,
+          "sellercategory": category.toString(),
+          "jobdescription": jobdescription,
           "address": address,
           "city": city,
           "state": state,
+          "pincode": pincode,
           "phoneno": phoneno,
           "email": email,
           "password": password
@@ -47,7 +61,7 @@ Future<String> registerBuyer(
       return t;
     }
     var jsonData = json.decode(utf8.decode(response.bodyBytes));
-    p.setBool("login", true);
+    p.setBool("loginseller", true);
     p.setInt("userid", jsonData['userid']);
     p.setString("email", email);
     p.setString("name", jsonData['name']);

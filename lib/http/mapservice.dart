@@ -40,3 +40,38 @@ Future<List<Mark>> loadmarker(int id, double latitude, double longitude) async {
     return null;
   }
 }
+
+Future<List<Mark>> loadordermarker(double latitude, double longitude) async {
+  SharedPreferences p = await SharedPreferences.getInstance();
+  p.reload();
+  var id = p.getInt("userid");
+  print(id);
+  try {
+    var response = await http.post(
+        'http://findthem-techmafia.herokuapp.com/sellermap/' +
+            id.toString() +
+            '/?format=json',
+        body: {
+          "latitude": latitude.toString(),
+          "longitude": longitude.toString()
+        }).timeout(const Duration(seconds: 30));
+    print(response.bodyBytes);
+    if (response.statusCode != 200) {
+      return null;
+    }
+    var jsonData = json.decode(utf8.decode(response.bodyBytes));
+    List<Mark> markers = [];
+    print(jsonData);
+    for (var k in jsonData) {
+      Mark marker = Mark(k['id'], k['latitude'], k['longitude']);
+      markers.add(marker);
+    }
+    return markers;
+  } on TimeoutException catch (e) {
+    return null;
+  } on http.ClientException catch (e) {
+    return null;
+  } on SocketException catch (e) {
+    return null;
+  }
+}

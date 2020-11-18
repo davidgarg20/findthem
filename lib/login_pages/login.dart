@@ -18,6 +18,7 @@ class _LoginState extends State<Login> {
   var passwordcontroller = TextEditingController();
   var error = false;
   var errormessage = "Error";
+  bool seller = false;
   bool logina = false;
   @override
   Widget build(BuildContext context) {
@@ -129,69 +130,155 @@ class _LoginState extends State<Login> {
                   : Padding(
                       padding: EdgeInsets.all(0),
                     ),
+              Row(
+                children: [
+                  Checkbox(
+                      value: seller,
+                      onChanged: (value) {
+                        if (value)
+                          setState(() {
+                            seller = true;
+                          });
+                        else
+                          setState(() {
+                            seller = false;
+                          });
+                      }),
+                  Text("Do you want to login as a Seller"),
+                ],
+              ),
               SizedBox(
                 height: 30,
               ),
-              Container(
-                height: 60,
-                child: Material(
-                  borderRadius: BorderRadius.circular(30),
-                  color: logina ? Colors.lightGreen : Colors.green,
-                  child: GestureDetector(
-                    onTap: logina
-                        ? () {}
-                        : () async {
-                            setState(() {
-                              logina = true;
-                            });
-                            ProgressDialog pr = ProgressDialog(context);
-                            pr = ProgressDialog(
-                              context,
-                              type: ProgressDialogType.Normal,
-                              isDismissible: false,
-                            );
-                            pr.style(
-                                message: 'Logging in..',
-                                borderRadius: 10.0,
-                                backgroundColor: Colors.white,
-                                progressWidget: CircularProgressIndicator(),
-                                elevation: 10.0,
-                                messageTextStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 19.0,
-                                    fontWeight: FontWeight.w600));
-                            await pr.show();
-                            print("hello");
-                            var k = await login(
-                                emailcontroller.text, passwordcontroller.text);
-                            pr.hide();
+              seller
+                  ? Padding(padding: EdgeInsets.all(0))
+                  : Container(
+                      height: 60,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(30),
+                        color: logina ? Colors.lightGreen : Colors.green,
+                        child: GestureDetector(
+                          onTap: logina
+                              ? () {}
+                              : () async {
+                                  setState(() {
+                                    logina = true;
+                                  });
+                                  ProgressDialog pr = ProgressDialog(context);
+                                  pr = ProgressDialog(
+                                    context,
+                                    type: ProgressDialogType.Normal,
+                                    isDismissible: false,
+                                  );
+                                  pr.style(
+                                      message: 'Logging in..',
+                                      borderRadius: 10.0,
+                                      backgroundColor: Colors.white,
+                                      progressWidget:
+                                          CircularProgressIndicator(),
+                                      elevation: 10.0,
+                                      messageTextStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 19.0,
+                                          fontWeight: FontWeight.w600));
+                                  await pr.show();
+                                  print("hello");
+                                  var k = await login(emailcontroller.text,
+                                      passwordcontroller.text);
+                                  pr.hide();
 
-                            if (k == "Login Sucessfull") {
-                              Navigator.pushReplacementNamed(context, '/home');
-                            } else {
-                              errormessage = k.toString();
-                              setState(() {
-                                error = true;
-                              });
-                            }
-                            setState(() {
-                              logina = false;
-                            });
-                          },
-                    child: Center(
-                      child: Text(
-                        'LOGIN',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          letterSpacing: 2,
+                                  if (k == "Login Sucessfull") {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/home');
+                                  } else {
+                                    errormessage = k.toString();
+                                    setState(() {
+                                      error = true;
+                                    });
+                                  }
+                                  setState(() {
+                                    logina = false;
+                                  });
+                                },
+                          child: Center(
+                            child: Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                letterSpacing: 2,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+              seller
+                  ? Container(
+                      height: 60,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(30),
+                        color: logina ? Colors.lightGreen : Colors.green,
+                        child: GestureDetector(
+                          onTap: logina
+                              ? () {}
+                              : () async {
+                                  setState(() {
+                                    logina = true;
+                                  });
+                                  ProgressDialog pr = ProgressDialog(context);
+                                  pr = ProgressDialog(
+                                    context,
+                                    type: ProgressDialogType.Normal,
+                                    isDismissible: false,
+                                  );
+                                  pr.style(
+                                      message: 'Logging in..',
+                                      borderRadius: 10.0,
+                                      backgroundColor: Colors.white,
+                                      progressWidget:
+                                          CircularProgressIndicator(),
+                                      elevation: 10.0,
+                                      messageTextStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 19.0,
+                                          fontWeight: FontWeight.w600));
+                                  await pr.show();
+                                  print("hello");
+                                  var k = await loginseller(
+                                      emailcontroller.text,
+                                      passwordcontroller.text);
+                                  pr.hide();
+
+                                  if (k == "Login Sucessfull") {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/sellerhome');
+                                  } else {
+                                    errormessage = k.toString();
+                                    setState(() {
+                                      error = true;
+                                    });
+                                  }
+                                  setState(() {
+                                    logina = false;
+                                  });
+                                },
+                          child: Center(
+                            child: Text(
+                              'LOGIN AS A SELLER',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                letterSpacing: 2,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Padding(padding: EdgeInsets.all(0)),
               SizedBox(
                 height: 10,
               ),
@@ -239,9 +326,13 @@ class _LoginState extends State<Login> {
     SharedPreferences p = await SharedPreferences.getInstance();
     p.reload();
     bool t = p.getBool("login");
+    bool k = p.getBool("loginseller");
     print(t);
     if (t == true) {
       Navigator.pushReplacementNamed(context, '/home');
+    }
+    if (k == true) {
+      Navigator.pushReplacementNamed(context, '/sellerhome');
     }
   }
 }

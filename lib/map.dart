@@ -14,8 +14,6 @@ class _MapViewState extends State<MapView> {
   bool seller = false;
   String sellername = "seller";
   Set<Marker> marker = {};
-  @override
-  void initState() {}
 
   @override
   Widget build(BuildContext context) {

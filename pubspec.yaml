@@ -79,7 +79,11 @@ flutter:
     - family: lemon
       fonts:
         - asset: fonts/Lemon-Regular.ttf
+<<<<<<< HEAD
     - family: Lobster
+=======
+    - family: lobster
+>>>>>>> 0ec66eb31317cc512cb09d2aebbd785faa41018b
       fonts:
         - asset: fonts/Lobster-Regular.ttf
   #

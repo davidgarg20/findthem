@@ -62,9 +62,9 @@ Future<String> registerSeller(
     }
     var jsonData = json.decode(utf8.decode(response.bodyBytes));
     p.setBool("loginseller", true);
-    p.setInt("userid", jsonData['userid']);
+    p.setInt("userid", jsonData['sellerid']);
     p.setString("email", email);
-    p.setString("name", jsonData['name']);
+    p.setString("name", name);
     return "Registration Sucessfull";
   } on TimeoutException catch (e) {
     return "No Internet";

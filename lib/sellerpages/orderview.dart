@@ -3,6 +3,7 @@ import 'package:findthem/database/database.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:findthem/http/orderservice.dart';
 import 'package:geolocator/geolocator.dart';
+import 'orders.dart';
 
 class OrderView extends StatefulWidget {
   Order order;
@@ -26,6 +27,13 @@ class _OrderViewState extends State<OrderView> {
         body: Container(
             child: SingleChildScrollView(
                 child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Order Location",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
           Container(
               height: 250,
               child: GoogleMap(
@@ -54,20 +62,56 @@ class _OrderViewState extends State<OrderView> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Order Description : ",
-                  style: TextStyle(fontSize: 16, color: Colors.black87),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Order Description:',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: Text(
+                        order.detail.toString(),
+                        maxLines: 5,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Text(order.detail),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Location : ",
-                  style: TextStyle(fontSize: 16, color: Colors.black87),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Order Location:',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: Text(
+                        order.glocation.toString(),
+                        maxLines: 5,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Text(order.glocation),
               SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -87,22 +131,56 @@ class _OrderViewState extends State<OrderView> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Buyer Name : ",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'Buyer Name:',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    buyer.name.toString(),
+                                    maxLines: 5,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(buyer.name),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Mobile No. : ",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'Buyer MobileNo. :',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    buyer.phoneno.toString(),
+                                    maxLines: 5,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(buyer.phoneno),
                         ],
                       ));
                     } else
@@ -110,9 +188,11 @@ class _OrderViewState extends State<OrderView> {
                           height: height,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Center(child: CircularProgressIndicator()),
+                            child: Container(
+                                child:
+                                    Center(child: CircularProgressIndicator())),
                           ));
-                  })
+                  }),
             ],
           ))
         ]))));

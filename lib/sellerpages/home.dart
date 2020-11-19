@@ -6,6 +6,8 @@ import 'package:findthem/database/database.dart';
 import 'package:findthem/http/mapservice.dart';
 import 'package:findthem/http/orderservice.dart';
 import 'orderview.dart';
+import 'orders.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SellerHome extends StatefulWidget {
   @override
@@ -21,127 +23,181 @@ class _SellerHomeState extends State<SellerHome> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(
-                  'OrderId:',
-                  style: TextStyle(
-                    fontSize: 15,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'OrderId:',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  order.id.toString(),
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.blue,
+                  SizedBox(
+                    width: 5,
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Category:',
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  order.category,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Detail:',
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  order.detail,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Order Location:',
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: Text(
-                    order.glocation,
-                    maxLines: 5,
+                  Text(
+                    order.id.toString(),
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.blue,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(
               height: 5,
             ),
-            RaisedButton(
-                onPressed: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OrderView(order: order),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Category:',
+                    style: TextStyle(
+                      fontSize: 15,
                     ),
-                  );
-                },
-                child: Text("View Complete Order")),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    order.category,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Detail:',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    order.detail,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Order Location:',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Text(
+                      order.glocation,
+                      maxLines: 5,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               height: 5,
             ),
             RaisedButton(
-                onPressed: () async {
-                  await ordercompleted(order.id.toString());
-                  setState(() {
-                    k = false;
-                  });
-                  await Future.delayed(Duration(seconds: 1));
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderView(order: order),
+                  ),
+                );
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(80.0)),
+              padding: EdgeInsets.all(0.0),
+              child: Ink(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(30.0)),
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "View Complete Order",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            RaisedButton(
+              onPressed: () async {
+                await ordercompleted(order.id.toString());
+                setState(() {
+                  k = false;
+                });
+                await Future.delayed(Duration(seconds: 1));
 
-                  setState(() {
-                    k = true;
-                  });
-                },
-                child: Text("Mark as Completed")),
+                setState(() {
+                  k = true;
+                });
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(80.0)),
+              padding: EdgeInsets.all(0.0),
+              child: Ink(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(30.0)),
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Mark as Completed",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
               height: 5,
             ),
@@ -158,7 +214,25 @@ class _SellerHomeState extends State<SellerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Home")),
+        appBar: AppBar(title: Text("Home"), actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: (choice) async {
+              print("logout");
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+
+              prefs.remove("loginseller");
+              Navigator.of(context).pushReplacementNamed('/login');
+            },
+            itemBuilder: (BuildContext context) {
+              return {'Logout '}.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          )
+        ]),
         body: Container(
           child: SingleChildScrollView(
             child: Column(
@@ -216,22 +290,79 @@ class _SellerHomeState extends State<SellerHome> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Order Description : ",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.black87),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'OrderId:',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        order.id.toString(),
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Text(order.detail),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Location : ",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.black87),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Order Description:',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          order.detail.toString(),
+                                          maxLines: 5,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Text(order.glocation),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Order Location:',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          order.glocation.toString(),
+                                          maxLines: 5,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: RaisedButton(
@@ -248,7 +379,35 @@ class _SellerHomeState extends State<SellerHome> {
                                         k = true;
                                       });
                                     },
-                                    child: Text("Accept Order"),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(80.0)),
+                                    padding: EdgeInsets.all(0.0),
+                                    child: Ink(
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xff374ABE),
+                                              Color(0xff64B6FF)
+                                            ],
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(30.0)),
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                            maxWidth: 250.0, minHeight: 50.0),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Accept Order",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 )
                               ],
@@ -287,6 +446,40 @@ class _SellerHomeState extends State<SellerHome> {
                             return CircularProgressIndicator();
                         })
                     : Padding(padding: EdgeInsets.all(0)),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: RaisedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PreviousOrders(),
+                          ));
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(80.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xff2EB62C), Color(0xff64B6FF)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30.0)),
+                      child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "View Completed Orders",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

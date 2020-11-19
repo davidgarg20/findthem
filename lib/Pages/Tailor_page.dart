@@ -148,7 +148,7 @@ class Tailor extends StatelessWidget with NaviagtionStates {
 
   Future<bool> loadposition() async {
     position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    var k = await loadmarker(1, 100, 100);
+    var k = await loadmarker(2, position.latitude, position.longitude);
     int t = 1;
     for (var mark in k) {
       Marker mymarker = Marker(

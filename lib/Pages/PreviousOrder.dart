@@ -122,22 +122,219 @@ class _PreviousOrdersState extends State<PreviousOrders> {
                 SizedBox(
                   width: 5,
                 ),
-                Text(
-                  order.orderaccepted
-                      ? order.ordercompleted
-                          ? "Order Completed"
-                          : "Order Accepted"
-                      : "Pending",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.blue,
-                  ),
-                ),
+                order.orderaccepted
+                    ? order.ordercompleted
+                        ? Text("Completed",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue,
+                            ))
+                        : Text("Accepted",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue,
+                            ))
+                    : Text(
+                        "Pending",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.red,
+                        ),
+                      ),
               ],
             ),
             SizedBox(
               height: 5,
-            )
+            ),
+            order.orderaccepted
+                ? RaisedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 100),
+                              child: Scaffold(
+                                  backgroundColor: Colors.transparent,
+                                  body: Container(
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: FutureBuilder(
+                                          future: loadseller(order.seller),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<Seller> snapshot) {
+                                            if (snapshot.hasData) {
+                                              Seller seller = snapshot.data;
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'SellerId:',
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          seller.id.toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.blue,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Seller Name:',
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          seller.name
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.blue,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Address :',
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          seller.address
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.blue,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'City :',
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          seller.city
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.blue,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'Mobine No. :',
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          seller.phoneno
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: Colors.blue,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    RaisedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Text("Cool"))
+                                                  ],
+                                                ),
+                                              );
+                                            } else
+                                              return Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                          }))));
+                        },
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(80.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xff374ABE), Color(0xff64B6FF)],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30.0)),
+                      child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "View Seller Details",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      ),
+                    ),
+                  )
+                : Padding(padding: EdgeInsets.all(0)),
           ],
         ),
       ),

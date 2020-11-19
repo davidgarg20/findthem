@@ -162,14 +162,6 @@ class _sidebarState extends State<sidebar>
                           endIndent: 16,
                         ),
                         menu_item(
-                            icon: Icons.settings,
-                            title: "Setting",
-                            onclick: () {
-                              onIconPressed();
-                              BlocProvider.of<Navigation_Bloc>(context)
-                                  .add(NavigationEvents.setting_click);
-                            }),
-                        menu_item(
                             icon: Icons.autorenew,
                             title: "Logout",
                             onclick: () async {

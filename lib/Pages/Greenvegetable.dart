@@ -57,8 +57,7 @@ class _GreenvegetableState extends State<Greenvegetable> {
                 children: <Widget>[
                   Container(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          (MediaQuery.of(context).size.width) / 5, 0, 0, 0),
+                      padding: EdgeInsets.fromLTRB(100 / 5, 0, 0, 0),
                       child: Image.asset(
                         "./assets/images/groceries.png",
                       ),
@@ -323,42 +322,54 @@ class _GreenvegetableState extends State<Greenvegetable> {
                     ],
                   ),
                   Spacer(),
-                  FutureBuilder(
-                      future: loadposition(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        var height = (MediaQuery.of(context).size.height) * 0.1;
-                        if (snapshot.hasData) {
-                          return Container(
-                              height: height,
-                              child: GoogleMap(
-                                  scrollGesturesEnabled: true,
-                                  onCameraMove: (CameraPosition p) {
-                                    print(p);
-                                  },
-                                  onCameraMoveStarted: () {
-                                    print("start");
-                                  },
-                                  onTap: (LatLng l) {
-                                    print(l);
-                                  },
-                                  mapType: MapType.normal,
-                                  markers: marker,
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(
-                                        position.latitude, position.longitude),
-                                    zoom: 16.476,
-                                  )));
-                        } else
-                          return Container(
-                              height: height,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child:
-                                    Center(child: CircularProgressIndicator()),
-                              ));
-                      }),
                 ],
               ),
+              FutureBuilder(
+                  future: loadposition(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    var height = (MediaQuery.of(context).size.height) * 0.75;
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Nearby Sellers",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                              height: height,
+                              child: GoogleMap(
+                                scrollGesturesEnabled: true,
+                                onCameraMove: (CameraPosition p) {
+                                  print(p);
+                                },
+                                onCameraMoveStarted: () {
+                                  print("start");
+                                },
+                                onTap: (LatLng l) {
+                                  print(l);
+                                },
+                                mapType: MapType.normal,
+                                markers: marker,
+                                initialCameraPosition: CameraPosition(
+                                  target: LatLng(
+                                      position.latitude, position.longitude),
+                                  zoom: 16.476,
+                                ),
+                              )),
+                        ],
+                      );
+                    } else
+                      return Container(
+                          height: height,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: CircularProgressIndicator()),
+                          ));
+                  }),
             ]),
           )),
     );
@@ -366,7 +377,7 @@ class _GreenvegetableState extends State<Greenvegetable> {
 
   Future<bool> loadposition() async {
     position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    var k = await loadmarker(1, 100, 100);
+    var k = await loadmarker(0, position.latitude, position.longitude);
     int t = 1;
     for (var mark in k) {
       Marker mymarker = Marker(

@@ -63,3 +63,23 @@ class Buyer {
     return {'id': id, 'name': name, 'phoneno': phoneno};
   }
 }
+
+class Seller {
+  int id;
+  String name;
+  String phoneno;
+  String address;
+  String city;
+
+  Seller(this.id, this.name, this.phoneno, this.address, this.city);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'phoneno': phoneno,
+      'address': address,
+      'city': city
+    };
+  }
+}

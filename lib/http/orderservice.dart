@@ -78,6 +78,37 @@ Future<Buyer> loadbuyer(int id) async {
   }
 }
 
+Future<Seller> loadseller(int id) async {
+  try {
+    var response = await http
+        .get(
+          'http://findthem-techmafia.herokuapp.com/buyerdetail/' +
+              id.toString() +
+              '/?format=json',
+        )
+        .timeout(const Duration(seconds: 30));
+    if (response.statusCode != 200) {
+      return null;
+    }
+    var jsonData = json.decode(utf8.decode(response.bodyBytes));
+    print(jsonData);
+    Seller seller = Seller(
+      jsonData['id'],
+      jsonData['name'],
+      jsonData['phoneno'],
+      jsonData['address'],
+      jsonData['city'],
+    );
+    return seller;
+  } on TimeoutException catch (e) {
+    return null;
+  } on http.ClientException catch (e) {
+    return null;
+  } on SocketException catch (e) {
+    return null;
+  }
+}
+
 Future<List<Order>> loadorders() async {
   var prefs = await SharedPreferences.getInstance();
   var id = prefs.get("userid");
@@ -202,6 +233,54 @@ Future<bool> orderaccept(String id) async {
     return false;
   } on SocketException catch (e) {
     return false;
+  }
+}
+
+Future<List<Order>> loadsellercompletedorders() async {
+  var prefs = await SharedPreferences.getInstance();
+  var id = prefs.get("userid");
+  try {
+    var response = await http
+        .get(
+          'http://findthem-techmafia.herokuapp.com/listsellercompletedorders/' +
+              id.toString() +
+              '/?format=json',
+        )
+        .timeout(const Duration(seconds: 30));
+    if (response.statusCode != 200) {
+      return null;
+    }
+    List<Order> orders = [];
+    var jsonData = json.decode(utf8.decode(response.bodyBytes));
+    print(jsonData);
+    for (var k in jsonData) {
+      String category = "Vegetables";
+      if (k['category'] == 1)
+        category = "RaddiWala";
+      else if (k['category'] == 1)
+        category = "Tailor";
+      else if (k['category'] == 1) category = "Building Contractor";
+      Order order = Order(
+          k['id'],
+          k['userid'],
+          category,
+          k['sdetail'],
+          k['detail'],
+          k['glocation'],
+          k['latitude'],
+          k['longitude'],
+          k['orderaccepted'],
+          k['ordercompleted'],
+          k['seller']);
+      orders.add(order);
+    }
+    return orders;
+  } on TimeoutException catch (e) {
+    return null;
+  } on http.ClientException catch (e) {
+    return null;
+  } on SocketException catch (e) {
+    return null;
   }
 }
 
